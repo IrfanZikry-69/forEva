@@ -1,15 +1,1000 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f6f3e9"><meta name="description" content="A little something for Arisha, from Sof."><title>For Arisha, from Sof</title><link rel="stylesheet" href="style.css"></head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For Eva, from Irfan Zikry</title>
+  <meta name="description" content="A little something for Eva, with love from Irfan Zikry.">
+  <meta name="theme-color" content="#f6f3e9">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --paper: #f6f3e9;
+      --paper-warm: #fffdf5;
+      --ink: #304233;
+      --ink-dark: #1b261d;
+      --muted: #737f6d;
+      --line: #d8dbcb;
+      --terracotta: #8b554c;
+      --terracotta-light: #eed7b9;
+      --gold-accent: #a87859;
+      --card-bg: #fbfaf4;
+      --shadow-soft: 0 16px 36px rgba(52, 71, 56, 0.08);
+      --shadow-hover: 0 22px 48px rgba(52, 71, 56, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--paper);
+    }
+
+    body {
+      color: var(--ink);
+      background-color: var(--paper);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14.5px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body:has(dialog[open]) {
+      overflow: hidden;
+    }
+
+    /* Subtle paper grain texture overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-image: radial-gradient(rgba(0,0,0,0.02) 1px, transparent 0);
+      background-size: 16px 16px;
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.6;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 400;
+      line-height: 1.1;
+      color: var(--ink-dark);
+    }
+
+    h1 { font-size: clamp(48px, 6vw, 84px); }
+    h2 { font-size: clamp(34px, 4.5vw, 60px); }
+
+    .script {
+      font-family: 'Caveat', cursive;
+      font-size: 30px;
+    }
+
+    .eyebrow {
+      font-size: 10.5px;
+      letter-spacing: 2.8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .hint {
+      font-size: 12px;
+      letter-spacing: 1.2px;
+      color: var(--muted);
+      text-transform: lowercase;
+    }
+
+    button, a {
+      font: inherit;
+      color: inherit;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: all 0.25s ease;
+    }
+
+    button:focus-visible, a:focus-visible {
+      outline: 2px solid var(--gold-accent);
+      outline-offset: 4px;
+    }
+
+    /* Floating Audio Player Control */
+    .audio-toggle-btn {
+      position: fixed;
+      top: 22px;
+      right: 22px;
+      z-index: 100;
+      background: rgba(255, 253, 245, 0.85);
+      border: 1px solid var(--line);
+      padding: 8px 16px;
+      border-radius: 30px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 14px rgba(48, 66, 51, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+    .audio-toggle-btn:hover {
+      background: #fff;
+      transform: translateY(-1px);
+    }
+    .audio-indicator {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #8b9986;
+      transition: background 0.3s;
+    }
+    .audio-indicator.playing {
+      background: #479055;
+      box-shadow: 0 0 8px #47905599;
+      animation: pulse 1.6s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.7; }
+    }
+
+    /* Screen 1: Welcome Envelope */
+    .welcome-screen {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      background: radial-gradient(ellipse at center, var(--paper-warm) 0%, var(--paper) 70%);
+      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .welcome-screen.opening {
+      opacity: 0;
+      transform: translateY(-24px) scale(0.98);
+      pointer-events: none;
+    }
+
+    .welcome-screen h1 {
+      margin: 20px 0 6px;
+    }
+
+    .welcome-screen .script {
+      color: var(--gold-accent);
+      margin-bottom: 24px;
+    }
+
+    .envelope-box {
+      position: relative;
+      width: min(340px, 85vw);
+      height: 220px;
+      background: #d4b896;
+      margin: 30px 0 25px;
+      border-radius: 8px;
+      box-shadow: 0 25px 50px rgba(78, 62, 44, 0.18);
+      border: 1px solid #c2a17b;
+      cursor: pointer;
+      isolation: isolate;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+    }
+
+    .envelope-box:hover {
+      transform: translateY(-8px) rotate(-1.5deg);
+      box-shadow: 0 32px 60px rgba(78, 62, 44, 0.25);
+    }
+
+    .envelope-box::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: #c8a780;
+      clip-path: polygon(0 0, 52% 64%, 0 100%);
+      z-index: 1;
+    }
+
+    .envelope-box::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: #c19f78;
+      clip-path: polygon(100% 0, 48% 64%, 100% 100%);
+      z-index: 1;
+    }
+
+    .envelope-bottom {
+      position: absolute;
+      inset: 0;
+      background: #b69269;
+      clip-path: polygon(0 100%, 50% 48%, 100% 100%);
+      z-index: 2;
+    }
+
+    .envelope-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100%;
+      background: #e2c8a7;
+      clip-path: polygon(0 0, 100% 0, 50% 60%);
+      transform-origin: top;
+      transition: transform 0.6s ease;
+      filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.15));
+      z-index: 3;
+    }
+
+    .envelope-box:hover .envelope-flap {
+      transform: rotateX(25deg);
+    }
+
+    .envelope-address {
+      position: absolute;
+      bottom: 24px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-family: 'Caveat', cursive;
+      font-size: 32px;
+      color: #4b3624;
+      z-index: 4;
+      pointer-events: none;
+      text-shadow: 0 1px 1px rgba(255,255,255,0.4);
+    }
+
+    .wax-seal {
+      position: absolute;
+      top: 98px;
+      left: calc(50% - 24px);
+      width: 48px;
+      height: 48px;
+      background: radial-gradient(circle at 35% 35%, #a46459, var(--terracotta));
+      color: var(--terracotta-light);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      z-index: 5;
+      box-shadow: 0 4px 10px rgba(90, 45, 38, 0.45), inset 0 2px 3px rgba(255,255,255,0.25);
+      border: 1px solid #733c33;
+    }
+
+    /* Screen 2: Interactive Story Layout */
+    .story-page {
+      opacity: 1;
+      transition: opacity 0.7s ease;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 30px 6%;
+      border-bottom: 1px solid var(--line);
+      background: rgba(246, 243, 233, 0.75);
+      backdrop-filter: blur(6px);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+
+    .brand-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 26px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-title span {
+      color: var(--gold-accent);
+    }
+
+    /* Section 01: Flowers and Letter */
+    .section-flowers {
+      text-align: center;
+      padding: 80px 24px 60px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .section-flowers h1 {
+      margin: 20px 0 16px;
+    }
+
+    .section-flowers .intro {
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 500px;
+      margin: 0 auto 30px;
+    }
+
+    /* Orchid Envelope Container */
+    .orchid-interactive-card {
+      display: block;
+      margin: 30px auto 16px;
+      background: none;
+      border: 0;
+      width: min(440px, 92vw);
+      position: relative;
+      filter: drop-shadow(0 20px 30px rgba(52, 71, 56, 0.12));
+      transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .orchid-interactive-card:hover {
+      transform: translateY(-8px) scale(1.02);
+    }
+
+    .orchid-graphic {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+    }
+
+    .orchid-badge {
+      position: absolute;
+      bottom: 22px;
+      right: 22px;
+      background: rgba(255, 253, 245, 0.95);
+      border: 1px solid var(--line);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--terracotta);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    }
+
+    /* Section 02: Soundtrack */
+    .section-soundtrack {
+      background: #eaeee1;
+      padding: 90px 20px;
+      text-align: center;
+      border-top: 1px solid var(--line);
+    }
+
+    .soundtrack-wrapper {
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    .music-glyph {
+      font-size: 48px;
+      color: #79866e;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .section-soundtrack h2 {
+      margin-bottom: 16px;
+    }
+
+    .section-soundtrack p {
+      color: #64735e;
+      font-size: 14.5px;
+      max-width: 480px;
+      margin: 0 auto 36px;
+    }
+
+    .playlist-card {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      text-align: left;
+      background: #fbfaf4;
+      border: 1px solid #ced6c3;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: var(--shadow-soft);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .playlist-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
+      border-color: #abb99e;
+    }
+
+    .playlist-vinyl {
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #253323 35%, #182317 36%, #182317 65%, #2a3a28 66%);
+      display: grid;
+      place-items: center;
+      color: #e5ecd9;
+      font-size: 28px;
+      flex-shrink: 0;
+      border: 6px solid #4a6147;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      animation: spin 20s linear infinite;
+    }
+
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+
+    .playlist-info {
+      flex: 1;
+    }
+
+    .playlist-info strong {
+      display: block;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 28px;
+      font-weight: 500;
+      color: var(--ink-dark);
+      margin: 4px 0 6px;
+    }
+
+    .playlist-info span {
+      font-size: 12px;
+      color: var(--muted);
+      display: block;
+    }
+
+    .play-arrow-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #51694f;
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 15px;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .playlist-card:hover .play-arrow-btn {
+      background: #394d37;
+      transform: scale(1.08);
+    }
+
+    /* Ambient Audio Card */
+    .ambient-card {
+      margin-top: 24px;
+      padding: 16px 20px;
+      background: rgba(255, 253, 245, 0.6);
+      border-radius: 12px;
+      border: 1px dashed #cbd4be;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 65px 24px 50px;
+      border-top: 1px solid var(--line);
+      background: var(--paper);
+    }
+
+    footer p {
+      font-size: 15px;
+      color: var(--ink);
+    }
+
+    footer .author-sig {
+      font-family: 'Caveat', cursive;
+      font-size: 36px;
+      color: var(--gold-accent);
+      margin: 10px 0 25px;
+      display: block;
+    }
+
+    .back-to-top {
+      background: none;
+      border: 1px solid var(--line);
+      padding: 8px 18px;
+      border-radius: 30px;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+    .back-to-top:hover {
+      background: #fff;
+      color: var(--ink);
+    }
+
+    /* Dialogs / Modals */
+    dialog {
+      border: 0;
+      padding: 0;
+      background: transparent;
+      max-width: 95vw;
+      max-height: 94svh;
+      border-radius: 12px;
+      margin: auto;
+      box-shadow: 0 30px 90px rgba(18, 30, 20, 0.35);
+      outline: none;
+    }
+
+    dialog::backdrop {
+      background: rgba(26, 38, 28, 0.65);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: rgba(255, 253, 245, 0.9);
+      color: var(--ink);
+      font-size: 20px;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      z-index: 10;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .modal-close-btn:hover {
+      background: #fff;
+      transform: scale(1.08);
+    }
+
+    /* Authentic Lined Paper Letter Dialog */
+    .letter-modal-content {
+      width: min(520px, 92vw);
+      background: #fffef8;
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 0 50px rgba(220, 210, 190, 0.3), 0 20px 40px rgba(0,0,0,0.15);
+      border: 1px solid #e5dfcb;
+    }
+
+    /* Lined Paper Lines */
+    .lined-sheet {
+      position: relative;
+      padding: 50px 36px 40px 52px;
+      background: 
+        repeating-linear-gradient(
+          transparent,
+          transparent 31px,
+          #d8e1e7 31px,
+          #d8e1e7 32px
+        );
+      line-height: 32px;
+    }
+
+    /* Red Margin Line on notebook */
+    .lined-sheet::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 42px;
+      width: 1.5px;
+      background: rgba(225, 126, 126, 0.55);
+      pointer-events: none;
+    }
+
+    .letter-text {
+      font-family: 'Caveat', cursive;
+      font-size: 25.5px;
+      line-height: 32px;
+      color: #1a2530;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+    }
+
+    .letter-text .salutation {
+      font-size: 32px;
+      font-weight: 700;
+      display: block;
+      margin-bottom: 32px;
+      color: #121e28;
+    }
+
+    .letter-text .signature-block {
+      margin-top: 32px;
+      text-align: right;
+      font-size: 30px;
+      color: #121e28;
+      font-weight: 700;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 650px) {
+      .lined-sheet {
+        padding: 40px 24px 30px 42px;
+        line-height: 30px;
+        background: repeating-linear-gradient(transparent, transparent 29px, #d8e1e7 29px, #d8e1e7 30px);
+      }
+      .lined-sheet::before {
+        left: 32px;
+      }
+      .letter-text {
+        font-size: 21px;
+        line-height: 30px;
+      }
+      .playlist-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 16px;
+      }
+    }
+  </style>
+</head>
 <body>
-<div id="welcome" class="welcome"><p class="eyebrow">A LITTLE SOMETHING, JUST FOR YOU</p><h1>For Arisha.</h1><p class="script">with love, Sof</p><button id="open-envelope" class="envelope" aria-label="Open your letter"><span class="envelope-flap"></span><span class="address">To Arisha Zulfah</span><span class="seal">♥</span></button><p class="hint">tap the envelope to open</p></div>
-<main id="story" hidden>
-<header><a href="#flowers">Arisha &amp; Sof <span>♡</span></a><span>A LITTLE PIECE OF US</span></header>
-<section id="flowers" class="flowers"><p class="eyebrow">01 / SOMETHING FOR YOU</p><h1>If flowers could<br>write you a letter.</h1><p class="intro">These ones have something to say.</p><button id="bouquet" class="bouquet" aria-label="Tap the bouquet to reveal your letter"><img src="assets/bouquet.png" alt="A bouquet of cream lilies with a green gingham ribbon and a floral envelope"></button><p class="hint">tap the bouquet · there's a letter for you</p><a class="scroll" href="#memories">our little story continues ↓</a></section>
-<section id="memories" class="memories"><div class="section-heading"><div><p class="eyebrow">02 / PLACES THAT FEEL LIKE US</p><h2>Our memory map.</h2></div><p>Two places. A little piece of our story.<br>Tap a photograph to step back inside.</p></div>
-<div class="map"><span class="map-label sea">STRAIT OF MALACCA</span><span class="map-label country">M A L A Y S I A</span><svg class="terrain" viewBox="0 0 900 650" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><pattern id="grid" width="55" height="55" patternUnits="userSpaceOnUse"><path d="M55 0H0V55" fill="none" stroke="#a7b8ac" stroke-opacity=".17"/></pattern></defs><rect width="900" height="650" fill="#dce5df"/><path d="M170-30L740-30 920 450 720 670 598 568 530 490 430 416 365 325 280 238 220 135Z" fill="#eeedda" stroke="#c6cbb4" stroke-width="3"/><path d="M370-10Q290 150 425 230T570 400T720 600M500 0Q380 180 540 270T690 500M280 110Q490 130 650 70M365 320Q540 300 810 370M530 490Q640 440 850 500" fill="none" stroke="#d4d6bd" stroke-width="2"/><path d="M415 260Q455 355 560 450" fill="none" stroke="#849875" stroke-width="2" stroke-dasharray="7 8"/><rect width="900" height="650" fill="url(#grid)"/></svg>
-<button class="photo-pin cyber" data-photo="mmu" aria-label="Open our first meeting at MMU Cyberjaya"><span class="polaroid"><img src="assets/mmu.jpeg" alt="Arisha at MMU Cyberjaya"><span>where it begins ♡</span></span><span class="pin-dot"></span><span class="location">MMU Cyberjaya</span></button>
-<button class="photo-pin melaka" data-photo="melaka" aria-label="Open our photograph at Ayer Keroh, Melaka"><span class="polaroid"><img src="assets/melaka.jpeg" alt="Sof and Arisha together in Melaka"><span>you &amp; me</span></span><span class="pin-dot"></span><span class="location">Ayer Keroh, Melaka</span></button><span class="map-note">little places, lovely memories</span><span class="compass" aria-hidden="true">N<br>↑</span></div></section>
-<section id="songs" class="songs"><p class="eyebrow">03 / OUR OWN LITTLE SOUNDTRACK</p><span class="music-note" aria-hidden="true">♫</span><h2>A little bit of us,<br>in songs.</h2><p>The playlist we made together.<br>For whenever you want to press play on us.</p><a class="playlist-card" href="https://open.spotify.com/playlist/2dlQD8HakbTCq1nUo9kS7A?si=1f10411c69914f08&amp;pt=dfe8b519a40d2b34fe9f08d2d25c29c1" target="_blank" rel="noopener noreferrer"><span class="playlist-art" aria-hidden="true">♫</span><span class="playlist-details"><span class="eyebrow">OUR SHARED PLAYLIST</span><strong>Our little soundtrack</strong><span>Listen together on Spotify ↗</span></span><span class="playlist-play" aria-hidden="true">▶</span></a></section><footer>For you, Arisha. Always with love.<span class="script">Sof ♡</span><button id="restart">back to the envelope ↑</button></footer>
-</main>
-<dialog id="letter-dialog" class="letter-dialog"><button class="close" aria-label="Close letter">×</button><img src="assets/letter.png" alt="To Arisha Zulfah, I will always under your Amortentia Potion. I only got my eyes on you Arisha Sayang. Sof"></dialog>
-<dialog id="photo-dialog" class="photo-dialog"><button class="close" aria-label="Close memory">×</button><img id="memory-image" alt=""><div class="memory-caption"><p class="eyebrow" id="memory-location"></p><h2 id="memory-title"></h2><p id="memory-description"></p></div></dialog><script src="script.js"></script></body></html>
+
+  <!-- Floating Audio Theme Atmosphere -->
+  <button id="toggle-audio" class="audio-toggle-btn" aria-label="Toggle ambient soft music">
+    <span class="audio-indicator" id="audio-dot"></span>
+    <span id="audio-label">Ambient Chimes: Off</span>
+  </button>
+
+  <!-- SCREEN 1: Welcome Envelope -->
+  <section id="welcome-view" class="welcome-screen">
+    <p class="eyebrow">A little something, just for you</p>
+    <h1>For Eva.</h1>
+    <p class="script">with love, Irfan Zikry</p>
+
+    <!-- Clickable Envelope -->
+    <div id="envelope-trigger" class="envelope-box" role="button" tabindex="0" aria-label="Tap to open letter for Eva">
+      <div class="envelope-flap"></div>
+      <div class="envelope-bottom"></div>
+      <div class="envelope-address">To Eva ♡</div>
+      <div class="wax-seal">♥</div>
+    </div>
+
+    <p class="hint">tap the envelope to open</p>
+  </section>
+
+  <!-- SCREEN 2: Interactive Story -->
+  <main id="story-view" class="story-page" hidden>
+    
+    <!-- Header -->
+    <header>
+      <a href="#flowers" class="brand-title">
+        Eva &amp; Irfan Zikry <span>♡</span>
+      </a>
+      <span class="eyebrow">A Little Piece of Us</span>
+    </header>
+
+    <!-- SECTION 01: Flowers & Letter -->
+    <section id="flowers" class="section-flowers">
+      <p class="eyebrow">01 / SOMETHING FOR YOU</p>
+      <h1>If flowers could<br>write you a letter.</h1>
+      <p class="intro">These orchids hold every quiet thought I keep in my heart for you.</p>
+
+      <!-- Clickable Orchid Flower Card -->
+      <button id="orchid-letter-trigger" class="orchid-interactive-card" aria-label="Tap the orchid envelope to read handwritten letter">
+        <svg class="orchid-graphic" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <!-- Paper shadow -->
+            <filter id="soft-sh" x="-10%" y="-10%" width="120%" height="130%" filterUnits="userSpaceOnUse">
+              <feDropShadow dx="0" dy="12" stdDeviation="15" flood-color="#344833" flood-opacity="0.16"/>
+            </filter>
+            <!-- Gradients for realistic orchid petals -->
+            <radialGradient id="orchidCenter" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#80142b"/>
+              <stop offset="60%" stop-color="#b62b4c"/>
+              <stop offset="100%" stop-color="#df627a"/>
+            </radialGradient>
+            <linearGradient id="petalPink" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="65%" stop-color="#fcedeb"/>
+              <stop offset="100%" stop-color="#f3cbcf"/>
+            </linearGradient>
+            <linearGradient id="stemGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#7a8f6e"/>
+              <stop offset="100%" stop-color="#495a41"/>
+            </linearGradient>
+            <linearGradient id="kraftPaper" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#d6b58f"/>
+              <stop offset="100%" stop-color="#be996f"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Stems & Foliage -->
+          <g id="stems">
+            <path d="M140 270 C160 160 210 100 280 60" stroke="url(#stemGreen)" stroke-width="7" stroke-linecap="round"/>
+            <path d="M260 180 C320 130 380 120 440 140" stroke="url(#stemGreen)" stroke-width="6" stroke-linecap="round"/>
+            <path d="M120 280 C100 190 70 120 40 80" stroke="url(#stemGreen)" stroke-width="6" stroke-linecap="round"/>
+            <!-- Flower Buds -->
+            <ellipse cx="440" cy="140" rx="10" ry="16" fill="#889d7d" transform="rotate(35 440 140)"/>
+            <ellipse cx="420" cy="115" rx="8" ry="14" fill="#a4b59b" transform="rotate(25 420 115)"/>
+            <ellipse cx="400" cy="95" rx="7" ry="12" fill="#c3cfbc" transform="rotate(15 400 95)"/>
+          </g>
+
+          <!-- Back Envelope flap (opened) -->
+          <polygon points="70,250 250,150 430,250" fill="#ae875d"/>
+
+          <!-- Realistic Watercolor Orchids -->
+          <!-- Orchid Left -->
+          <g transform="translate(130, 210) scale(0.85)">
+            <ellipse cx="-40" cy="-25" rx="35" ry="50" fill="url(#petalPink)" transform="rotate(-30 -40 -25)" stroke="#eed7d7"/>
+            <ellipse cx="40" cy="-25" rx="35" ry="50" fill="url(#petalPink)" transform="rotate(30 40 -25)" stroke="#eed7d7"/>
+            <ellipse cx="0" cy="-55" rx="38" ry="52" fill="url(#petalPink)" stroke="#eed7d7"/>
+            <ellipse cx="-30" cy="25" rx="30" ry="45" fill="url(#petalPink)" transform="rotate(20 -30 25)" stroke="#eed7d7"/>
+            <ellipse cx="30" cy="25" rx="30" ry="45" fill="url(#petalPink)" transform="rotate(-20 30 25)" stroke="#eed7d7"/>
+            <!-- Lip -->
+            <path d="M-18,5 C-25,25 0,38 0,40 C0,38 25,25 18,5 C10,12 -10,12 -18,5 Z" fill="url(#orchidCenter)"/>
+            <circle cx="0" cy="5" r="9" fill="#f8c346"/>
+          </g>
+
+          <!-- Orchid Centerpiece -->
+          <g transform="translate(250, 180) scale(1.1)">
+            <ellipse cx="-46" cy="-28" rx="42" ry="58" fill="url(#petalPink)" transform="rotate(-35 -46 -28)" stroke="#f0dada"/>
+            <ellipse cx="46" cy="-28" rx="42" ry="58" fill="url(#petalPink)" transform="rotate(35 46 -28)" stroke="#f0dada"/>
+            <ellipse cx="0" cy="-64" rx="45" ry="60" fill="url(#petalPink)" stroke="#f0dada"/>
+            <ellipse cx="-35" cy="30" rx="36" ry="52" fill="url(#petalPink)" transform="rotate(25 -35 30)" stroke="#f0dada"/>
+            <ellipse cx="35" cy="30" rx="36" ry="52" fill="url(#petalPink)" transform="rotate(-25 35 30)" stroke="#f0dada"/>
+            <!-- Lip & center speckles -->
+            <path d="M-22,8 C-30,30 0,46 0,48 C0,46 30,30 22,8 C12,16 -12,16 -22,8 Z" fill="url(#orchidCenter)"/>
+            <circle cx="0" cy="8" r="10" fill="#f5c037"/>
+            <circle cx="-5" cy="18" r="2.5" fill="#fde599"/>
+            <circle cx="5" cy="18" r="2.5" fill="#fde599"/>
+          </g>
+
+          <!-- Orchid Right Top -->
+          <g transform="translate(340, 140) scale(0.75)">
+            <ellipse cx="-35" cy="-20" rx="30" ry="45" fill="url(#petalPink)" transform="rotate(-25 -35 -20)" stroke="#eed7d7"/>
+            <ellipse cx="35" cy="-20" rx="30" ry="45" fill="url(#petalPink)" transform="rotate(25 35 -20)" stroke="#eed7d7"/>
+            <ellipse cx="0" cy="-45" rx="32" ry="46" fill="url(#petalPink)" stroke="#eed7d7"/>
+            <ellipse cx="-25" cy="20" rx="25" ry="40" fill="url(#petalPink)" stroke="#eed7d7"/>
+            <ellipse cx="25" cy="20" rx="25" ry="40" fill="url(#petalPink)" stroke="#eed7d7"/>
+            <path d="M-14,4 C-20,20 0,30 0,32 C0,30 20,20 14,4 Z" fill="url(#orchidCenter)"/>
+            <circle cx="0" cy="4" r="7" fill="#f8c346"/>
+          </g>
+
+          <!-- Front Pocket of Kraft Envelope -->
+          <g filter="url(#soft-sh)">
+            <!-- Main envelope base rectangle -->
+            <rect x="70" y="240" width="360" height="210" rx="6" fill="url(#kraftPaper)"/>
+            <!-- Side folds -->
+            <polygon points="70,240 250,355 70,450" fill="#cba880"/>
+            <polygon points="430,240 250,355 430,450" fill="#c39e76"/>
+            <!-- Bottom fold flap -->
+            <polygon points="70,450 250,325 430,450" fill="#b89369"/>
+          </g>
+
+          <!-- Subtle stamp / label on envelope front -->
+          <rect x="180" y="380" width="140" height="38" rx="4" fill="#f6f2e4" opacity="0.9"/>
+          <text x="250" y="405" font-family="'Caveat', cursive" font-size="22" fill="#5c4632" text-anchor="middle">For Eva, with love</text>
+        </svg>
+        <span class="orchid-badge">Tap to read letter ✉</span>
+      </button>
+
+      <p class="hint">tap the orchid envelope · there's a letter for you</p>
+      <br>
+      <a class="script" href="#songs" style="text-decoration:none; color: var(--gold-accent);">
+        our little soundtrack continues ↓
+      </a>
+    </section>
+
+    <!-- SECTION 02: Soundtrack -->
+    <section id="songs" class="section-soundtrack">
+      <div class="soundtrack-wrapper">
+        <p class="eyebrow">02 / OUR SPECIAL SONG</p>
+        <span class="music-glyph" aria-hidden="true">♫</span>
+        <h2>A song for us.</h2>
+        <p><em>“Someone loves me over country, over hills and dams... Someone loves me over something that will never change.”</em></p>
+
+        <!-- Spotify / Custom Track Link Card for Lizzy McAlpine -->
+        <a class="playlist-card" href="https://open.spotify.com/search/Lizzy%20McAlpine%20Over%20Country" target="_blank" rel="noopener noreferrer" aria-label="Listen to Over country by Lizzy McAlpine on Spotify">
+          <div class="playlist-vinyl" aria-hidden="true">♫</div>
+          <div class="playlist-info">
+            <span class="eyebrow">NOW PLAYING FOR YOU</span>
+            <strong>Over country</strong>
+            <span>Lizzy McAlpine · Tap to listen on Spotify ↗</span>
+          </div>
+          <div class="play-arrow-btn" aria-hidden="true">▶</div>
+        </a>
+
+        <!-- Ambient sound hint -->
+        <div class="ambient-card">
+          <span>✨</span>
+          <span>Want soft background ambience while you browse? Tap the chime button at the top right corner.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>For you, Eva. Always with love.</p>
+      <span class="author-sig">Irfan Zikry ♡</span>
+      <button id="restart-journey" class="back-to-top">back to envelope ↑</button>
+    </footer>
+
+  </main>
+
+  <!-- MODAL 1: Handwritten Letter Modal (Faithfully recreating the note to Eva) -->
+  <dialog id="letter-modal" aria-labelledby="letter-heading">
+    <div class="letter-modal-content">
+      <button class="modal-close-btn" id="close-letter-dialog" aria-label="Close letter">✕</button>
+      
+      <div class="lined-sheet">
+        <div class="letter-text">
+          <span class="salutation" id="letter-heading">To Eva,</span>
+          
+          <p>I wish I could lend you my eyes so you could see yourself through as I do. Through these eyes of mine, you would witness the beauty that radiates from you from your presence, the gentleness in your eyes that warms my heart, the smile that lights up my darkest day.</p>
+          <br>
+          <p>You would see the strength in you when the world overwhelms you with its weight. You would also know that your imperfections, no matter how much you hate them, are still dear to me; I would crawl inside your soul, find the broken parts, and still love them.</p>
+          <br>
+          <p>If only you could see through my eyes, you would understand that to me, all your forms are beautiful.</p>
+          
+          <div class="signature-block">
+            From Irfan Zikry
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- MODAL 2: Photo / Memory Modal -->
+  <dialog id="memory-modal" aria-labelledby="modal-memory-title">
+    <div class="photo-modal-content">
+      <button class="modal-close-btn" id="close-memory-dialog" aria-label="Close photo memory">✕</button>
+      <div class="photo-modal-hero" id="modal-photo-hero">
+        <!-- Injected dynamically -->
+      </div>
+      <div class="photo-caption-body">
+        <p class="eyebrow" id="modal-memory-loc">LOCATION</p>
+        <h2 id="modal-memory-title">Memory Title</h2>
+        <p id="modal-memory-desc">Detailed sweet description of the memory.</p>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Interactive Logic and Web Audio Synthesizer -->
+  <script>
+    // DOM Elements
+    const welcomeView = document.getElementById('welcome-view');
+    const storyView = document.getElementById('story-view');
+    const envelopeTrigger = document.getElementById('envelope-trigger');
+    const restartBtn = document.getElementById('restart-journey');
+    
+    const orchidTrigger = document.getElementById('orchid-letter-trigger');
+    const letterModal = document.getElementById('letter-modal');
+    const closeLetterBtn = document.getElementById('close-letter-dialog');
+
+    // 1. Envelope Open Transition
+    function openEnvelope() {
+      welcomeView.classList.add('opening');
+      setTimeout(() => {
+        welcomeView.hidden = true;
+        storyView.hidden = false;
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      }, 700);
+    }
+
+    envelopeTrigger.addEventListener('click', openEnvelope);
+    envelopeTrigger.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openEnvelope();
+      }
+    });
+
+    // 2. Restart to Envelope
+    restartBtn.addEventListener('click', () => {
+      storyView.hidden = true;
+      welcomeView.hidden = false;
+      welcomeView.classList.remove('opening');
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    });
+
+    // 3. Orchid Letter Dialog Trigger
+    orchidTrigger.addEventListener('click', () => {
+      letterModal.showModal();
+    });
+    closeLetterBtn.addEventListener('click', () => {
+      letterModal.close();
+    });
+
+    // Close Dialog on Backdrop Click
+    letterModal.addEventListener('click', (e) => {
+      const rect = letterModal.getBoundingClientRect();
+      const isInDialog = (
+        rect.top <= e.clientY &&
+        e.clientY <= rect.top + rect.height &&
+        rect.left <= e.clientX &&
+        e.clientX <= rect.left + rect.width
+      );
+      if (!isInDialog) {
+        letterModal.close();
+      }
+    });
+
+    // 4. Procedural Soft Ambient Chimes (No external audio file dependency)
+    let audioCtx = null;
+    let isPlayingAudio = false;
+    let audioTimer = null;
+    const toggleAudioBtn = document.getElementById('toggle-audio');
+    const audioDot = document.getElementById('audio-dot');
+    const audioLabel = document.getElementById('audio-label');
+
+    // Soft pentatonic notes (warm acoustic music box chimes)
+    const frequencies = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25];
+
+    function playSoftChime() {
+      if (!isPlayingAudio || !audioCtx) return;
+
+      try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        // Random note from pentatonic chord
+        const note = frequencies[Math.floor(Math.random() * frequencies.length)];
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(note, audioCtx.currentTime);
+
+        // Soft bell-like envelope
+        const now = audioCtx.currentTime;
+        gain.gain.setValueAtTime(0, now);
+        gain.gain.linearRampToValueAtTime(0.045, now + 0.1);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 2.8);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start(now);
+        osc.stop(now + 3.0);
+      } catch (err) {
+        console.error("Audio playback error:", err);
+      }
+
+      // Schedule next gentle chime at random interval
+      if (isPlayingAudio) {
+        const nextInterval = 1200 + Math.random() * 2000;
+        audioTimer = setTimeout(playSoftChime, nextInterval);
+      }
+    }
+
+    toggleAudioBtn.addEventListener('click', () => {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContext();
+      }
+
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      isPlayingAudio = !isPlayingAudio;
+
+      if (isPlayingAudio) {
+        audioDot.classList.add('playing');
+        audioLabel.textContent = 'Ambient Chimes: On';
+        playSoftChime();
+      } else {
+        audioDot.classList.remove('playing');
+        audioLabel.textContent = 'Ambient Chimes: Off';
+        if (audioTimer) clearTimeout(audioTimer);
+      }
+    });
+  </script>
+</body>
+</html>
